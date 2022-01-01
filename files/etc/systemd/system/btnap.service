@@ -17,8 +17,15 @@
 After=bluetooth.service
 PartOf=bluetooth.service
 
+Before=network-pre.target
+Wants=network-pre.target
+After=local-fs.target
+Requires=local-fs.target
+
 [Service]
+Type=oneshot
 ExecStart=/usr/local/sbin/btnap.service.sh
+RemainAfterExit=yes
 
 [Install]
-WantedBy=bluetooth.target
+WantedBy=bluetooth.target network.target
