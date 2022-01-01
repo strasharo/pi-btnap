@@ -26,11 +26,10 @@ BT_CONF_HIDDEN="0"        # system is permanently discoverable/pairable
 
 # --- basic packages   ------------------------------------------------------
 
-PACKAGES="bridge-utils python-dbus python-gobject"
+PACKAGES="bridge-utils dbus-python python-gobject"
 [ "$BT_CONF_DNSMASQ" = "1" ] && PACKAGES+=" dnsmasq"
 if [ -n "$PACKAGES" ]; then
-  apt-get update
-  apt-get -y install $PACKAGES
+  pacman -Sy $PACKAGES
 fi
 
 # --- install specific files   ----------------------------------------------
