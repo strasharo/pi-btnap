@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # --------------------------------------------------------------------------
 # This scripts implements the btnap-service.
 #
@@ -51,7 +51,7 @@ def find_adapter(pattern=None):
 
 def find_adapter_in_objects(objects, pattern=None):
 	bus, obj = get_bus(), None
-	for path, ifaces in objects.iteritems():
+	for path, ifaces in objects.items():
 		adapter = ifaces.get(iface_adapter)
 		if adapter is None: continue
 		if not pattern or pattern == adapter['Address'] or path.endswith(pattern):
@@ -70,7 +70,7 @@ def find_device_in_objects(objects, device_address, adapter_pattern=None):
 		if not isinstance(adapter_pattern, types.StringTypes): adapter = adapter_pattern
 		else: adapter = find_adapter_in_objects(objects, adapter_pattern)
 		path_prefix = adapter.object_path
-	for path, ifaces in objects.iteritems():
+	for path, ifaces in objects.items():
 		device = ifaces.get(iface_dev)
 		if device is None: continue
 		if device['Address'] == device_address and path.startswith(path_prefix):
@@ -131,7 +131,7 @@ def main(args=None):
 			parser.error('--device-all option is only valid with "server" mode.')
 		devs = list(find_adapter())
 	devs = dict((prop_get(dev, 'Address'), dev) for dev in devs)
-	for dev_addr, dev in devs.viewitems():
+	for dev_addr, dev in devs.items():
 		prop_set(dev, 'Powered', True)
 		log.debug('Using local device (addr: %s): %s', dev_addr, dev.object_path)
 
@@ -178,7 +178,7 @@ def main(args=None):
 
 		servers = list()
 		try:
-			for dev_addr, dev in devs.viewitems():
+			for dev_addr, dev in devs.items():
 				server = dbus.Interface(dev, 'org.bluez.NetworkServer1')
 				server.Unregister(opts.uuid) # in case already registered
 				server.Register(opts.uuid, opts.iface_name)
